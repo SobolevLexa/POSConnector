@@ -66,7 +66,7 @@ var POSConnectorTests = (function () {
 
     tests.TestPrintDocumentWithDataBlob = function () {
         var request = new XMLHttpRequest();
-        request.open("GET", "sample.pdf", true);
+        request.open("GET", "/example/sample.pdf", true);
         request.responseType = "blob";
         request.onload = function () {
             var data = request.response;
