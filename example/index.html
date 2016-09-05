@@ -17,7 +17,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
             font-size: 16px;
             line-height: 25px;
@@ -29,18 +28,20 @@
 <body>
 <button type="button" onclick="POSConnectorTests.TestPayBasket()">Test pay basket</button>
 <button type="button" onclick="POSConnectorTests.TestGetLoginInformation()">Test get login information</button>
-<button type="button" onclick="POSConnectorTests.TestOpenURL(&quot;https://google.com&quot;)">Test open valid URL
+<button type="button" onclick="POSConnectorTests.TestOpenURL('https://google.com')">Test open valid URL
 </button>
-<button type="button" onclick="POSConnectorTests.TestOpenURL(&quot;invalid://google.com&quot;)">Test open invalid URL
+<button type="button" onclick="POSConnectorTests.TestOpenURL('invalid://google.com')">Test open invalid URL
 </button>
 <button type="button"
-        onclick="POSConnectorTests.TestPrintDocumentAtURL(&quot;/example/sample.pdf&quot;)">
+        onclick="POSConnectorTests.TestPrintDocumentAtURL('/example/sample.pdf')">
     Test print document at URL
 </button>
 <button type="button" onclick="POSConnectorTests.TestPrintDocumentWithDataBlob()">Test print document with data Blob
 </button>
 <button type="button" onclick="POSConnectorTests.TestPrintDocumentWithDataBase64String()">Test print document with data
     base64 string
+</button>
+<button type="button" onclick="POSConnectorTests.TestSendPOSConnectorObjectPathToPOS()">Test object path to POS
 </button>
 </body>
 </html>

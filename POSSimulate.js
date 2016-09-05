@@ -34,25 +34,24 @@
             byteArrays.push(byteArray);
         }
 
-        var blob = new Blob(byteArrays, {type: contentType});
-        return blob;
+        return new Blob(byteArrays, {type: contentType});
     }
 
-    var POSEmulate = {
-        pos: POSConnector,
+    var POSSimulate = {
+        pos: "POSConnector",
         postMessage: function (message) {
             console.log("[POS Simulator]: Received message: ", message);
-            var callbackMessasge;
+            var callbackMessage;
             switch (message.name) {
                 case MessageName.PayBasket:
-                    callbackMessasge = {
+                    callbackMessage = {
                         name: MessageName.PayBasketCallback,
                         body: {result: true, error: null},
                         callbackId: message.callbackId
                     };
                     break;
                 case MessageName.GetLoginInformation:
-                    callbackMessasge = {
+                    callbackMessage = {
                         name: MessageName.GetLoginInformationCallback,
                         body: {
                             result: {
@@ -70,7 +69,7 @@
                     break;
                 case MessageName.OpenURL:
                     window.open(message.body.url);
-                    callbackMessasge = {
+                    callbackMessage = {
                         name: MessageName.OpenURLCallback,
                         body: {result: true, error: null},
                         callbackId: message.callbackId
@@ -99,34 +98,49 @@
                         iframe.src = message.body.url
                     }
 
-                    callbackMessasge = {
+                    callbackMessage = {
                         name: MessageName.PrintDocumentCallback,
                         body: {result: true, error: null},
                         callbackId: message.callbackId
                     };
 
                     break;
+                case MessageName.SendPOSConnectorObjectPathToPOS:
+                    POSSimulate.pos =  message.body.ObjectPath;
+                    callbackMessage = {
+                        name: MessageName.SendPOSConnectorObjectPathToPOSCallback,
+                        body: {result: true, error: null},
+                        callbackId: message.callbackId
+                    };
+                    break;
                 default:
                     console.warn(message);
                     return;
             }
-            POSEmulate.pos.receiveMessage(callbackMessasge);
+            window[POSSimulate.pos].receiveMessage(callbackMessage);
 
         },
         subscribes: function () {
             setInterval(function () {
-                POSEmulate.pos.receiveMessage({
+                window[POSSimulate.pos].receiveMessage({
                     name: MessageName.BarcodeScanned,
-                    body: (Math.random() * 10000000000000).toFixed()
+                    body: {barcode: (Math.random() * 10000000000000).toFixed()}
 
                 });
             }, 5000);
+        },
+        init: function () {
+
+
+            window.webkit = {};
+            window.webkit.messageHandlers = {};
+            window.webkit.messageHandlers.POS = POSSimulate;
+
+             POSSimulate.subscribes();
         }
     };
-    //isConnected
-    window.webkit = {};
-    window.webkit.messageHandlers = {};
-    window.webkit.messageHandlers.POS = POSEmulate;
-    POSEmulate.subscribes();
+
+    POSSimulate.init();
+
 
 }());
