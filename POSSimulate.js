@@ -136,7 +136,15 @@
             window.webkit.messageHandlers = {};
             window.webkit.messageHandlers.POS = POSSimulate;
 
-             POSSimulate.subscribes();
+             // POSSimulate.subscribes();
+        },
+
+        sendBarcode: function(number) {
+	        window[POSSimulate.pos].receiveMessage({
+		        name: MessageName.BarcodeScanned,
+		        body: {barcode: number}
+
+	        });
         }
     };
 
