@@ -120,6 +120,7 @@ var POSConnector = (function () {
             callbackIdIndex += 1;
             return new Message(name, callbackIdIndexForMessage, body);
         }
+
         var message = {};
         message.name = name;
         message.callbackId = callbackOrCallbackId;
