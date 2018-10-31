@@ -147,7 +147,7 @@
 
 
 	window.POS = {
-		sendBarcode: sendBarcode,
-		sendDeepLink: sendDeepLink
+		sendBarcode: POSSimulate.sendBarcode,
+		sendDeepLink: POSSimulate.sendDeepLink
 	}
 }(window));
